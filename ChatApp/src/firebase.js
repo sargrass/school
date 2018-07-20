@@ -3,11 +3,12 @@ import * as firebase from 'firebase';
 
 // should go in a secret file
 const config = {
-    apiKey: "AIzaSyDLFqbBXZJKo-GTtqWCWtDgmENuy4uaHpQ",
-    authDomain: "chatapp-6c33c.firebaseapp.com",
-    databaseURL: "https://chatapp-6c33c.firebaseio.com",
-    storageBucket: "chatapp-6c33c.appspot.com",
-    messagingSenderId: "566006872694"
+    apiKey: "AIzaSyDyHaEaZChGNfBy1QXrCJH7xnv-sIcLwU0",
+    authDomain: "chatapp-3fd3c.firebaseapp.com",
+    databaseURL: "https://chatapp-3fd3c.firebaseio.com",
+    projectId: "chatapp-3fd3c",
+    storageBucket: "chatapp-3fd3c.appspot.com",
+    messagingSenderId: "742447065388"
 };
 firebase.initializeApp(config);
 
