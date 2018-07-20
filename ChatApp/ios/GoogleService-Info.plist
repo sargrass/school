@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>742447065388-2ksr3ej4m3tu4hh88o7et376055dob0o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.742447065388-2ksr3ej4m3tu4hh88o7et376055dob0o</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDaBeMkoCecckTJV0Qx5SRyqwYsWhSGUEM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>742447065388</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.xiaotianchen.ChatApp</string>
+	<key>PROJECT_ID</key>
+	<string>chatapp-3fd3c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chatapp-3fd3c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:742447065388:ios:de2d4db91746e872</string>
+	<key>DATABASE_URL</key>
+	<string>https://chatapp-3fd3c.firebaseio.com</string>
+</dict>
+</plist>
