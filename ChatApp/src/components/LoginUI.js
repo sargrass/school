@@ -21,14 +21,14 @@ class LoginUI extends Component {
 
                 <Input placeholder="Your name here"
                        submitAction={setUserName}
-                       submitOnBlur
+                       submitOnTextChange
                        noclear
                        ref="username"/>
                 <Divider />
 
                 <Input placeholder="Your avatar URL here"
                        submitAction={setUserAvatar}
-                       submitOnBlur
+                       submitOnTextChange
                        noclear
                        ref="avatar"/>
                 <Divider />
