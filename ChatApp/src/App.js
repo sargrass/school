@@ -6,9 +6,8 @@ import { Provider, connect } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
-import ChatUI from './components/ChatUI';
-import SlackChatUI from './components/SlackChatUI';
-import LoginUI from './components/LoginUI';
+import SlackChatUI from './components/containers/SlackChatUI';
+import LoginUI from './components/containers/LoginUI';
 import rootReducer from './reducers';
 import { fetchMessages, checkUserExists } from './actions';
 
