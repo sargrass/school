@@ -3,10 +3,10 @@ const message = (state, action) => {
     switch (action.type) {
         case 'ADD_MESSAGE':
             return {
-                id: action.id,
+                _id: action._id,
                 text: action.text,
-                time: action.time,
-                author: action.author
+                createdAt: action.createdAt,
+                user: action.user
             }
         default:
             return state
@@ -18,18 +18,18 @@ const message = (state, action) => {
 const messages = (state = [], action) => {
     switch (action.type) {
         case 'ADD_MESSAGE':
-            if (state.map(m => m.id).includes(action.id)) {
+            if (state.map(m => m._id).includes(action._id)) {
                 return state;
             }else{
                 return [
-                ...state,
-                message(undefined, action)
+                message(undefined, action),
+                ...state
                 ]
             }
         case 'SEND_MESSAGE':
             return [
-                ...state,
-                message(undefined, action)
+                message(undefined, action),
+                ...state
             ]
         default:
             return state

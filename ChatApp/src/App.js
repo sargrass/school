@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
 import ChatUI from './components/ChatUI';
+import SlackChatUI from './components/SlackChatUI';
 import LoginUI from './components/LoginUI';
 import rootReducer from './reducers';
 import { fetchMessages, checkUserExists } from './actions';
@@ -30,7 +31,7 @@ const LoginOrChat = connect(
     })
 )(({ authorized, dispatch }) => {
     if (authorized) {
-        return (<ChatUI />);
+        return (<SlackChatUI />);
     }else{
         dispatch(checkUserExists());
         return (<LoginUI />);

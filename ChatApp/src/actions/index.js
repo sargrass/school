@@ -4,29 +4,29 @@ import DeviceInfo from 'react-native-device-info';
 // import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 import { Platform } from 'react-native';
 
-export const addMessage = (msg) => ({
+export const addMessage = (msg_attrs) => ({
     type: 'ADD_MESSAGE',
-    ...msg
+    ...msg_attrs
 });
 
-export const sendMessage = (text, user) => {
+export const sendMessage = (msg_input, user) => {
     return function (dispatch) {
-        let msg = {
-                text: text,
-                time: Date.now(),
-                author: {
-                    name: user.name,
-                    avatar: user.avatar
-                }
-            };
-
         const newMsgRef = firebase.database()
                                   .ref('messages')
                                   .push();
-        msg.id = newMsgRef.key;
-        newMsgRef.set(msg);
+        msg_for_db = Object.assign({}, msg_input, {
+            _id: newMsgRef.key,
+            createdAt: msg_input.createdAt.getTime()
+        });
+        newMsgRef.set(msg_for_db);
 
-        dispatch(addMessage(msg));
+        msg_for_redux = Object.assign({}, msg_for_db, {
+            user: {
+                name: user.name,
+                avatar: user.avatar
+            }
+        });
+        dispatch(addMessage(msg_for_redux));
     };
 };
 
@@ -43,11 +43,33 @@ export const fetchMessages = () => {
     return function (dispatch) {
         dispatch(startFetchingMessages());
 
-        firebase.database()
-                .ref('messages')
-                .orderByKey()
+        const database = firebase.database();
+        const messages = database.ref('messages');
+        const users = database.ref('users');
+
+        function receiveMessages(messages) {
+            return function (dispatch) {
+                users.on('value', function(snapshot) {
+                    Object.entries(messages).forEach(([msg_id, msg]) => {
+                        const userObj = Object.assign({}, snapshot.val()[msg.user._id]);
+                        msg_obj = Object.assign({}, msg, {
+                            user: {
+                                name: userObj["name"],
+                                avatar: userObj["avatar"]
+                            }
+                        });
+                        dispatch(addMessage(msg_obj));
+                    });
+
+                    dispatch(receivedMessages());
+                });
+            }
+        }
+
+        messages.orderByKey()
                 .limitToLast(20)
                 .on('value', (snapshot) => {
+                    console.log('firebase value change');
                     // gets around Redux panicking about actions in reducers
                     setTimeout(() => {
                         const messages = snapshot.val() || [];
@@ -58,13 +80,13 @@ export const fetchMessages = () => {
     }
 }
 
-export const receiveMessages = (messages) => {
-    return function (dispatch) {
-        Object.values(messages).forEach(msg => dispatch(addMessage(msg)));
+// export const receiveMessages = (messages) => {
+//     return function (dispatch) {
+//         Object.values(messages).forEach(msg => dispatch(addMessage(msg)));
 
-        dispatch(receivedMessages());
-    }
-}
+//         dispatch(receivedMessages());
+//     }
+// }
 
 export const updateMessagesHeight = (event) => {
     const layout = event.nativeEvent.layout;
