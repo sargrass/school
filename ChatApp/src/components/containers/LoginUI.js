@@ -14,17 +14,21 @@ const mapStateToProps = (state) => ({
     avatar: state.user.avatar
 });
 
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchLogin: () =>
+      dispatch(login()),
+    dispatchSetUserName: (text) =>
+      dispatch(setUserName(text)),
+    dispatchSetUserAvatar: (text) =>
+      dispatch(setUserAvatar(text))
+  }
+}
+
+
 class LoginUI extends Component {
     onLogin() {
         this.props.dispatch(login());
-    }
-
-    dispatchSetUserName(text) {
-      this.props.dispatch(setUserName(text));
-    }
-
-    dispatchSetUserAvatar(text) {
-      this.props.dispatch(setUserAvatar(text));
     }
 
     render() {
@@ -35,15 +39,15 @@ class LoginUI extends Component {
 
                 <Input placeholder="Your name here"
                        text={this.props.name}
-                       textChangeAction={text => this.dispatchSetUserName(text)}
+                       textChangeAction={this.props.dispatchSetUserName}
                        ref="username"/>
                 <Divider />
 
                 {this.props.authorizing ? <Spinner /> 
-                  : <LoginButton onLogin={() => this.onLogin()}/>}
+                  : <LoginButton onLogin={this.props.dispatchLogin}/>}
             </Screen>
         );
     }
 }
 
-export default connect(mapStateToProps)(LoginUI);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginUI);
