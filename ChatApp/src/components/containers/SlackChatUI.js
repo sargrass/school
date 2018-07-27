@@ -7,9 +7,8 @@ import PropTypes from 'prop-types';
 import { View, Title, Screen } from '@shoutem/ui';
 import { GiftedChat } from 'react-native-gifted-chat';
 
-import { sendMessage } from '../../actions';
+import { sendMessage } from '../../actions/chatroom_actions';
 import SlackMessage from '../presentationals/SlackMessage';
-import DeviceInfo from 'react-native-device-info';
 
 const mapStateToProps = (state) => ({
     user: state.user,
@@ -17,13 +16,18 @@ const mapStateToProps = (state) => ({
     isFetching: state.chatroom.meta.isFetching
 });
 
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchSendMessage: (msg, user) =>
+      dispatch(sendMessage(msg, user))
+  }
+}
+
 class SlackChatUI extends Component {
     onSend(messages = []) {
         console.log('message length: ' + messages.length);
         messages.forEach(msg => {
-            this.props.dispatch(
-                sendMessage(msg, this.props.user)
-            );
+            this.props.dispatchSendMessage(msg, this.props.user);
         });
     }
 
@@ -39,7 +43,7 @@ class SlackChatUI extends Component {
             messages={this.props.messages}
             onSend={messages => this.onSend(messages)}
             user={{
-              _id: DeviceInfo.getUniqueID(),
+                _id: this.props.user._id
             }}
             renderMessage={this.renderMessage}
             renderAvatarOnTop={true}
@@ -48,4 +52,4 @@ class SlackChatUI extends Component {
     }
 }
 
-export default connect(mapStateToProps)(SlackChatUI);
+export default connect(mapStateToProps, mapDispatchToProps)(SlackChatUI);

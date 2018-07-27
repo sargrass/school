@@ -6,7 +6,7 @@ import { Screen, Title, Text, Divider, Button, Spinner } from '@shoutem/ui';
 
 import Input from '../presentationals/Input';
 import LoginButton from '../presentationals/LoginButton';
-import { login, setUserName, setUserAvatar } from '../../actions';
+import { login, setUserName, setUserAvatar, checkUserExists } from '../../actions/user_actions';
 
 const mapStateToProps = (state) => ({
     authorizing: state.user.authorizing,
@@ -16,6 +16,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    dispatchCheckUserExists: () =>
+      dispatch(checkUserExists()),
     dispatchLogin: () =>
       dispatch(login()),
     dispatchSetUserName: (text) =>
@@ -27,8 +29,8 @@ const mapDispatchToProps = dispatch => {
 
 
 class LoginUI extends Component {
-    onLogin() {
-        this.props.dispatch(login());
+    componentDidMount() {
+      this.props.dispatchCheckUserExists();
     }
 
     render() {

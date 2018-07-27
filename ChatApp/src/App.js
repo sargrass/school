@@ -9,7 +9,6 @@ import { createLogger } from 'redux-logger';
 import SlackChatUI from './components/containers/SlackChatUI';
 import LoginUI from './components/containers/LoginUI';
 import rootReducer from './reducers';
-import { fetchMessages, checkUserExists } from './actions';
 
 
 const loggerMiddleware = createLogger();
@@ -32,7 +31,6 @@ const LoginOrChat = connect(
     if (authorized) {
         return (<SlackChatUI />);
     }else{
-        dispatch(checkUserExists());
         return (<LoginUI />);
     }
 });
