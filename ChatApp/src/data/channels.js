@@ -4,7 +4,7 @@ const channels = {
 			title: 'rules'
 		},
 		{
-			title: 'news'
+			title: '新闻'
 		}
 	],
 	Chat: [
