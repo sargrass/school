@@ -2,6 +2,8 @@
 import { combineReducers } from 'redux';
 
 import messages from './messages';
+import channel from './channel';
+import group from './group';
 
 const initialState = {
     isFetching: false,
@@ -31,6 +33,8 @@ const meta = (state = initialState, action) => {
 
 const chatroom = combineReducers({
     messages,
+    channel,
+    group,
     meta
 });
 

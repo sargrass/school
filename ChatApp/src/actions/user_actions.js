@@ -1,5 +1,6 @@
 import firebase from '../firebase';
 import { fetchMessages } from './chatroom_actions';
+import { fetchChannels } from './channel_actions';
 import DeviceInfo from 'react-native-device-info';
 // import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 import { Platform } from 'react-native';
@@ -61,6 +62,7 @@ export const checkUserExists = () => {
 
 const startChatting = function (dispatch) {
     dispatch(userAuthorized());
+    dispatch(fetchChannels());
     dispatch(fetchMessages());
 
     // FCM.requestPermissions();

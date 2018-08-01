@@ -1,9 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {ListView, StyleSheet} from 'react-native';
 import {Avatar, Colors, Typography, View} from 'react-native-ui-lib';//eslint-disable-line
 import autobind from 'react-autobind';
 
-import groups from '../../data/groups';
+import { selectGroup, fetchGroups } from '../../actions/group_actions';
+
+
+const mapStateToProps = (state) => ({
+    groups: state.groups,
+    current_group_id: state.current_group_id
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchSelectGroup: (group_id) =>
+      dispatch(selectGroup(group_id)),
+    dispatchFetchGroups: () =>
+      dispatch(fetchGroups()),
+  }
+}
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -15,12 +31,17 @@ class GroupList extends React.Component {
     super(props);
     autobind(this);
     this.state = {
-      dataSource: ds.cloneWithRows(groups),
+      dataSource: ds,
     };
+    this.props.dispatchFetchGroups().then(result => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(result.groups)
+      });
+    })
   }
 
   onItemPressed(item) {
-    console.log(item); // eslint-disable-line
+    this.props.dispatchSelectGroup(item.id);
   }
 
   renderRow(row, index) {
@@ -62,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GroupList;
+export default connect(mapStateToProps, mapDispatchToProps)(GroupList);

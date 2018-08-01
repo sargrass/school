@@ -1,9 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {ListView, StyleSheet, TouchableOpacity} from 'react-native';
 import {Colors, Typography, View, Text} from 'react-native-ui-lib';//eslint-disable-line
 import autobind from 'react-autobind';
 
-import channels from '../../data/channels';
+import { selectChannel, fetchChannels } from '../../actions/channel_actions';
+
+
+const mapStateToProps = (state) => {
+  var props = {
+    channels: {},
+    current_channel_id: state.chatroom.channel.current_channel_id
+  };
+  if (state.chatroom.channel.group_to_channels && state.chatroom.group.current_group_id) {
+    props.channels = state.chatroom.channel.group_to_channels[state.chatroom.group.current_group_id];
+  }
+  console.log(props);
+  return props;
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchSelectChannel: (channel_id) =>
+      dispatch(selectChannel(channel_id)),
+    dispatchFetchChannels: () =>
+      dispatch(fetchChannels()),
+  }
+}
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -15,8 +38,17 @@ class ChannelList extends React.Component {
     super(props);
     autobind(this);
     this.state = {
-      dataSource: ds.cloneWithRowsAndSections(channels),
+      dataSource: ds,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.channels !== this.props.channels) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRowsAndSections(nextProps.channels)
+      });
+    }
   }
 
   onItemPressed(row) {
@@ -73,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.dark80
   },
   row: {
-    paddingVertical: 16, 
+    paddingVertical: 15, 
     paddingLeft: 12,
     justifyContent: 'center',
   },
@@ -95,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChannelList;
+export default connect(mapStateToProps, mapDispatchToProps)(ChannelList);
