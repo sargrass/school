@@ -1,6 +1,6 @@
 
 const initialState = {
-    groups: [123],
+    groups: [],
     current_group_id: '',
 }
 
@@ -12,7 +12,7 @@ const group = (state = initialState, action) => {
             });
         case 'SET_GROUPS':
             return Object.assign({}, state, {
-                groups: action.groups
+                groups: action.input_groups
             });
         default:
             return state

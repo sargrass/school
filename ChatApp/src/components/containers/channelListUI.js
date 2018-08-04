@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {ListView, StyleSheet, TouchableOpacity} from 'react-native';
-import {Colors, Typography, View, Text} from 'react-native-ui-lib';//eslint-disable-line
+import {Colors, Typography, View, Text, Modal} from 'react-native-ui-lib';//eslint-disable-line
 import autobind from 'react-autobind';
 
 import { selectChannel, fetchChannels } from '../../actions/channel_actions';
@@ -9,13 +9,26 @@ import { selectChannel, fetchChannels } from '../../actions/channel_actions';
 
 const mapStateToProps = (state) => {
   var props = {
+    title: '',
     channels: {},
     current_channel_id: state.chatroom.channel.current_channel_id
   };
-  if (state.chatroom.channel.group_to_channels && state.chatroom.group.current_group_id) {
-    props.channels = state.chatroom.channel.group_to_channels[state.chatroom.group.current_group_id];
+  if (state.chatroom.group.current_group_id) {
+    if (state.chatroom.group.groups) {
+      for (i in state.chatroom.group.groups) {
+        group = state.chatroom.group.groups[i]
+        if (group.id == state.chatroom.group.current_group_id) {
+          props.title = group.name;
+          break;
+        }
+      }
+    }
+    if (state.chatroom.channel.group_to_channels) {
+      props.channels = state.chatroom.channel.group_to_channels[state.chatroom.group.current_group_id];
+    }
   }
-  console.log(props);
+  
+  console.log(state);
   return props;
 };
 
@@ -43,7 +56,6 @@ class ChannelList extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.channels !== this.props.channels) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRowsAndSections(nextProps.channels)
@@ -84,6 +96,15 @@ class ChannelList extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Modal.TopBar
+          title={this.props.title}
+          cancelButtonProps={{
+            disabled: true,
+          }}
+          doneButtonProps={{
+            disabled: true,
+          }}
+        />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}

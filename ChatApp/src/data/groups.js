@@ -46,12 +46,12 @@ const groups = [
 	},
 	{
 		id: 'group_id_9',
-		name: '望京码农',
+		name: '南山码农',
 		icon: require('../assets/icons/group_icons/coder@256.jpg')
 	},
 	{
 		id: 'group_id_10',
-		name: '裙摆',
+		name: 'Lolita裙摆',
 		icon: require('../assets/icons/group_icons/lolita@180.jpeg')
 	},
 ];
